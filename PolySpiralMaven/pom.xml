@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+This is a simple example of how to compile and execute a Compose Desktop application
+purely in Maven without using Jetbrains Gradle plugin.
+
+Just run ...
+   mvn clean
+   mvn compile
+   mvn exec:java
+-->
+
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>de.mpmediasoft.compose</groupId>
+    <artifactId>compose-maven-demo</artifactId>
+    <version>1.0.0</version>
+    <packaging>jar</packaging>
+    <name>ComposeMavenDemo</name>
+
+    <profiles>
+        <!-- TODO: Currently only works for x86 -->
+        <profile>
+            <id>build-mac</id>
+            <activation>
+                <os><family>mac</family></os>
+            </activation>
+            <properties>
+                <skiko.platform>macos-x64</skiko.platform> <!-- macos-x64, macos-arm64, linux-x64, linux-arm64, windows-x64 -->
+            </properties>
+        </profile>
+        <profile>
+            <id>build-linux</id>
+            <activation>
+                <os><family>linux-x64</family></os>
+            </activation>
+            <properties>
+                <skiko.platform>linux</skiko.platform> <!-- macos-x64, macos-arm64, linux-x64, linux-arm64, windows-x64 -->
+            </properties>
+        </profile>
+        <profile>
+            <id>build-windows</id>
+            <activation>
+                <os><family>windows</family></os>
+            </activation>
+            <properties>
+                <skiko.platform>windows-x64</skiko.platform> <!-- macos-x64, macos-arm64, linux-x64, linux-arm64, windows-x64 -->
+            </properties>
+        </profile>
+    </profiles>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <maven.compiler.source>11</maven.compiler.source>
+        <maven.compiler.target>11</maven.compiler.target>
+        <exec-maven-plugin.version>1.6.0</exec-maven-plugin.version>
+        <mainClassName>MainKt</mainClassName>
+
+        <LOGGING_VERSION>2.1.23</LOGGING_VERSION>
+        <SLF4J_VERSION>1.7.29</SLF4J_VERSION>
+        <DATETIME_VERSION>0.3.2</DATETIME_VERSION>
+        
+        <KOTLIN_VERSION>1.6.21</KOTLIN_VERSION>
+        <SKIKO_VERSION>0.7.20</SKIKO_VERSION>
+        <COMPOSE_VERSION>1.2.0-alpha01-dev731</COMPOSE_VERSION>
+        <COROUTINES_VERSION>1.6.1</COROUTINES_VERSION>
+        <COLLECTIONS_VERSION>0.3.5</COLLECTIONS_VERSION>
+        <COMPOSE_COMPILER>0.3.5</COMPOSE_COMPILER>
+    </properties>
+
+    <dependencies>
+        <dependency><groupId>org.jetbrains.compose.compiler</groupId><artifactId>compiler-hosted</artifactId><version>${COMPOSE_VERSION}</version><scope>provided</scope><optional>true</optional></dependency>
+
+        <dependency><groupId>org.jetbrains.kotlinx</groupId><artifactId>kotlinx-datetime-jvm</artifactId><version>${DATETIME_VERSION}</version></dependency>
+        <dependency><groupId>io.github.microutils</groupId><artifactId>kotlin-logging-jvm</artifactId><version>${LOGGING_VERSION}</version></dependency>
+        <dependency><groupId>org.slf4j</groupId><artifactId>slf4j-simple</artifactId><version>${SLF4J_VERSION}</version></dependency>
+        <dependency><groupId>org.jetbrains.compose</groupId><artifactId>compose-full</artifactId><version>${COMPOSE_VERSION}</version></dependency>
+        <dependency><groupId>org.jetbrains.skiko</groupId><artifactId>skiko-awt-runtime-${skiko.platform}</artifactId><version>${SKIKO_VERSION}</version></dependency>
+        <dependency><groupId>org.jetbrains.kotlinx</groupId><artifactId>kotlinx-collections-immutable-jvm</artifactId><version>${COLLECTIONS_VERSION}</version></dependency>
+        <dependency><groupId>org.jetbrains.kotlinx</groupId><artifactId>kotlinx-coroutines-core-jvm</artifactId><version>${COROUTINES_VERSION}</version></dependency>
+        <dependency><groupId>org.jetbrains.kotlin</groupId><artifactId>kotlin-stdlib-jdk8</artifactId><version>${KOTLIN_VERSION}</version></dependency>
+    </dependencies>
+
+    <repositories>
+        <repository>
+            <id>jetbrains</id><url>https://maven.pkg.jetbrains.space/public/p/compose/dev</url>
+        </repository>
+        <repository>
+            <id>central</id><url>https://repo1.maven.org/maven2</url>
+        </repository>
+    </repositories>
+        
+    <build>
+        <sourceDirectory>${project.basedir}/src/main/kotlin</sourceDirectory>
+        <testSourceDirectory>${project.basedir}/src/test/kotlin</testSourceDirectory>
+        <finalName>${project.artifactId}</finalName>
+        <plugins>
+            <plugin>
+                <groupId>org.jetbrains.kotlin</groupId>
+                <artifactId>kotlin-maven-plugin</artifactId>
+                <version>${KOTLIN_VERSION}</version>
+                <executions>
+                    <execution>
+                        <id>compile</id>
+                        <goals>
+                            <goal>compile</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>test-compile</id>
+                        <goals>
+                            <goal>test-compile</goal>
+                        </goals>
+                    </execution>
+                </executions>
+				<configuration>
+					<args>
+						<arg>-verbose</arg>
+						<arg>-version</arg>
+						<arg>-jvm-target=${maven.compiler.target}</arg>
+						<arg>-Xuse-ir</arg>
+						<arg>-Xmulti-platform</arg>
+						<arg>-opt-in=kotlin.RequiresOptIn</arg>
+						<arg>-Xplugin=${user.home}/.m2/repository/org/jetbrains/compose/compiler/compiler-hosted/${COMPOSE_VERSION}/compiler-hosted-${COMPOSE_VERSION}.jar</arg>
+					</args>
+				</configuration>
+            </plugin>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>exec-maven-plugin</artifactId>
+				<version>${exec-maven-plugin.version}</version>
+				<executions>
+					<execution>
+						<goals>
+							<goal>java</goal>
+						</goals>
+					</execution>
+				</executions>
+       			<configuration>
+			        <mainClass>${mainClassName}</mainClass>
+					<arguments>
+						<argument>-Xmx1G</argument>
+					</arguments>
+				</configuration>
+			</plugin>	            
+        </plugins>
+    </build>
+</project>

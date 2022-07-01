@@ -7,8 +7,11 @@ This is a simple example of how to compile and execute a Compose Desktop applica
 purely in Maven without using Jetbrains Compose Gradle plugin.
 
 Just run ...
+
    `mvn clean`
+   
    `mvn compile`
+   
    `mvn exec:java`
 
 

@@ -18,4 +18,4 @@ Just run ...
 ## PolySpiralMpp
 
 This is a simple multiplatform Compose example which utilizes Compose rendering for
-iOS  and web.
+iOS  and web. For details see README inside project.

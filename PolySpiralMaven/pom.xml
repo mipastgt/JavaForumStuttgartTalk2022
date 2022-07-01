@@ -113,36 +113,36 @@ Just run ...
                         </goals>
                     </execution>
                 </executions>
-				<configuration>
-					<args>
-						<arg>-verbose</arg>
-						<arg>-version</arg>
-						<arg>-jvm-target=${maven.compiler.target}</arg>
-						<arg>-Xuse-ir</arg>
-						<arg>-Xmulti-platform</arg>
-						<arg>-opt-in=kotlin.RequiresOptIn</arg>
-						<arg>-Xplugin=${user.home}/.m2/repository/org/jetbrains/compose/compiler/compiler-hosted/${COMPOSE_VERSION}/compiler-hosted-${COMPOSE_VERSION}.jar</arg>
-					</args>
-				</configuration>
+                <configuration>
+                    <args>
+                        <arg>-verbose</arg>
+                        <arg>-version</arg>
+                        <arg>-jvm-target=${maven.compiler.target}</arg>
+                        <arg>-Xuse-ir</arg>
+                        <arg>-Xmulti-platform</arg>
+                        <arg>-opt-in=kotlin.RequiresOptIn</arg>
+                        <arg>-Xplugin=${user.home}/.m2/repository/org/jetbrains/compose/compiler/compiler-hosted/${COMPOSE_VERSION}/compiler-hosted-${COMPOSE_VERSION}.jar</arg>
+                    </args>
+                </configuration>
             </plugin>
-			<plugin>
-				<groupId>org.codehaus.mojo</groupId>
-				<artifactId>exec-maven-plugin</artifactId>
-				<version>${exec-maven-plugin.version}</version>
-				<executions>
-					<execution>
-						<goals>
-							<goal>java</goal>
-						</goals>
-					</execution>
-				</executions>
-       			<configuration>
-			        <mainClass>${mainClassName}</mainClass>
-					<arguments>
-						<argument>-Xmx1G</argument>
-					</arguments>
-				</configuration>
-			</plugin>	            
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>exec-maven-plugin</artifactId>
+                <version>${exec-maven-plugin.version}</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>java</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <mainClass>${mainClassName}</mainClass>
+                    <arguments>
+                        <argument>-Xmx1G</argument>
+                    </arguments>
+                </configuration>
+            </plugin>	            
         </plugins>
     </build>
 </project>

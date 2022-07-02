@@ -5,10 +5,7 @@ import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Button
-import androidx.compose.material.Slider
-import androidx.compose.material.Surface
-import androidx.compose.material.Text
+import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -16,13 +13,11 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.clipToBounds
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import de.mpmediasoft.polyspiral.model.PolySpiralManager
 import de.mpmediasoft.polyspiral.model.drawSpiral
-import mu.KotlinLogging
-
-private val logger = KotlinLogging.logger {}
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
@@ -56,10 +51,8 @@ fun PolySpiralApp(topOffset: Dp = 0.dp) {
                         onClick = {
                             if (polySpiralManagerState.isRendering) {
                                 polySpiralManager.stopRendering()
-                                logger.info { "Stopped rendering." }
                             } else {
                                 polySpiralManager.startRendering()
-                                logger.info { "Started rendering." }
                             }
                         },
     //                    modifier = Modifier.width(90.dp)

@@ -91,7 +91,6 @@ kotlin {
                 implementation(compose.runtime)
                 implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.1")
                 implementation("org.jetbrains.kotlinx:kotlinx-datetime:0.3.2")
-                implementation("io.github.microutils:kotlin-logging:2.1.23")
             }
         }
 
@@ -105,7 +104,6 @@ kotlin {
         val desktopMain by getting {
              dependencies {
                  implementation(compose.desktop.currentOs)
-                 implementation("org.slf4j:slf4j-simple:1.7.29")
              }
         }
 

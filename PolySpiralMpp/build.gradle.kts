@@ -15,6 +15,7 @@ buildscript {
 }
 
 plugins {
+    id("com.android.application")
     kotlin("multiplatform")
     id("org.jetbrains.compose")
 }
@@ -30,6 +31,7 @@ repositories {
 }
 
 kotlin {
+    android()
     jvm("desktop")
     js(IR) {
         browser()
@@ -89,7 +91,7 @@ kotlin {
                 implementation(compose.foundation)
                 implementation(compose.material)
                 implementation(compose.runtime)
-                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.1")
+                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.3")
                 implementation("org.jetbrains.kotlinx:kotlinx-datetime:0.3.2")
             }
         }
@@ -101,6 +103,15 @@ kotlin {
             }
         }
 
+        val androidMain by getting {
+            dependsOn(commonMain)
+            kotlin.srcDirs("src/jvmMain/kotlin")
+            dependencies {
+                api("androidx.appcompat:appcompat:1.4.2")
+                implementation("androidx.activity:activity-compose:1.5.0")
+            }
+        }
+
         val desktopMain by getting {
              dependencies {
                  implementation(compose.desktop.currentOs)
@@ -108,6 +119,9 @@ kotlin {
         }
 
         val jsMain by getting {
+            dependencies {
+                implementation(compose.web.core)
+            }
         }
 
         val nativeMain by creating {
@@ -166,6 +180,11 @@ compose.experimental {
                 //Usage: ./gradlew iosDeployIPadDebug
                 device = IOSDevices.IPAD_MINI_6th_Gen
             }
+            connectedDevice("Device") {
+                //First need specify your teamId here, or in local.properties (compose.ios.teamId=***)
+                //teamId="***"
+                //Usage: ./gradlew iosDeployDeviceRelease
+            }
         }
     }
 }
@@ -174,14 +193,14 @@ tasks.withType<KotlinCompile> {
     kotlinOptions.jvmTarget = "11"
 }
 
-kotlin {
-    targets.withType<KotlinNativeTarget> {
-        binaries.all {
-            // TODO: the current compose binary surprises LLVM, so disable checks for now.
-            freeCompilerArgs += "-Xdisable-phases=VerifyBitcode"
-        }
-    }
-}
+//kotlin {
+//    targets.withType<KotlinNativeTarget> {
+//        binaries.all {
+//            // TODO: the current compose binary surprises LLVM, so disable checks for now.
+//            freeCompilerArgs += "-Xdisable-phases=VerifyBitcode"
+//        }
+//    }
+//}
 
 compose.desktop.nativeApplication {
     targets(kotlin.targets.getByName("macosX64"))
@@ -201,10 +220,30 @@ afterEvaluate {
     }
 }
 
-
 // TODO: remove when https://youtrack.jetbrains.com/issue/KT-50778 fixed
 project.tasks.withType(org.jetbrains.kotlin.gradle.dsl.KotlinJsCompile::class.java).configureEach {
     kotlinOptions.freeCompilerArgs += listOf(
         "-Xir-dce-runtime-diagnostic=log"
     )
+}
+
+android {
+    compileSdk = 32
+
+    defaultConfig {
+        minSdk = 26
+        targetSdk = 32
+    }
+
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_11
+        targetCompatibility = JavaVersion.VERSION_11
+    }
+
+    sourceSets {
+        named("main") {
+            manifest.srcFile("src/androidMain/AndroidManifest.xml")
+            res.srcDirs("src/androidMain/res", "src/commonMain/resources")
+        }
+    }
 }

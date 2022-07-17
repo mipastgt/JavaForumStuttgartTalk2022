@@ -5,13 +5,18 @@
 The image shows the PolySpiralMpp demo running on the iOS simulator.
 
 ## Run on JVM
-`./gradlew run`
+  `./gradlew run`
 
 ## Run native on MacOS
   `./gradlew runDebugExecutableMacosX64` (Works on Intel processors)
 
 ## Run web assembly in browser
   `./gradlew jsBrowserDevelopmentRun`
+
+## Run on Android:
+- connect device or emulator
+- `./gradlew installDebugAndroidTest`
+- open app
 
 ## Run on iOS simulator
   `./gradlew iosDeployIPhone8Debug`

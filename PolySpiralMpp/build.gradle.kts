@@ -1,6 +1,5 @@
 import org.jetbrains.compose.compose
 import org.jetbrains.compose.desktop.application.dsl.TargetFormat
-import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import org.jetbrains.kotlin.gradle.targets.js.nodejs.NodeJsRootExtension
 import org.jetbrains.compose.experimental.dsl.IOSDevices
@@ -192,15 +191,6 @@ compose.experimental {
 tasks.withType<KotlinCompile> {
     kotlinOptions.jvmTarget = "11"
 }
-
-//kotlin {
-//    targets.withType<KotlinNativeTarget> {
-//        binaries.all {
-//            // TODO: the current compose binary surprises LLVM, so disable checks for now.
-//            freeCompilerArgs += "-Xdisable-phases=VerifyBitcode"
-//        }
-//    }
-//}
 
 compose.desktop.nativeApplication {
     targets(kotlin.targets.getByName("macosX64"))

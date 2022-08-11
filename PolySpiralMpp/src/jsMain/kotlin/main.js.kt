@@ -5,7 +5,7 @@ import org.jetbrains.skiko.wasm.onWasmReady
 
 fun main() {
     onWasmReady {
-        Window("PolySpiral - Compose - JS") {
+        BrowserViewportWindow("PolySpiral - Compose - JS") {
             MaterialTheme {
                 PolySpiralApp()
             }

@@ -51,21 +51,17 @@ fun BrowserViewportWindow(
         setAttribute("height", "${window.innerHeight}")
     }
 
-    var canvas = (document.getElementById(CANVAS_ELEMENT_ID) as HTMLCanvasElement).apply {
+    val canvas = (document.getElementById(CANVAS_ELEMENT_ID) as HTMLCanvasElement).apply {
         fillViewportSize()
     }
 
     ComposeWindow().apply {
         window.addEventListener("resize", {
-            val newCanvas = canvas.cloneNode(false) as HTMLCanvasElement
-            canvas.replaceWith(newCanvas)
-            canvas = newCanvas
-
+            canvas.fillViewportSize()
+            layer.layer.attachTo(canvas)
             val scale = layer.layer.contentScale
-            newCanvas.fillViewportSize()
-            layer.layer.attachTo(newCanvas)
+            layer.setSize((canvas.width / scale).toInt(), (canvas.height / scale).toInt())
             layer.layer.needRedraw()
-            layer.setSize((newCanvas.width / scale).toInt(), (newCanvas.height / scale).toInt())
         })
 
         // WORKAROUND: ComposeWindow does not implement `setTitle(title)`

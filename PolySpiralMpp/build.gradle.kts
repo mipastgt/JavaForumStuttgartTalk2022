@@ -90,8 +90,8 @@ kotlin {
                 implementation(compose.foundation)
                 implementation(compose.material)
                 implementation(compose.runtime)
-                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.3")
-                implementation("org.jetbrains.kotlinx:kotlinx-datetime:0.3.2")
+                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4")
+                implementation("org.jetbrains.kotlinx:kotlinx-datetime:0.4.0")
             }
         }
 
@@ -106,8 +106,8 @@ kotlin {
             dependsOn(commonMain)
             kotlin.srcDirs("src/jvmMain/kotlin")
             dependencies {
-                api("androidx.appcompat:appcompat:1.4.2")
-                implementation("androidx.activity:activity-compose:1.5.0")
+                api("androidx.appcompat:appcompat:1.5.0")
+                implementation("androidx.activity:activity-compose:1.5.1")
             }
         }
 

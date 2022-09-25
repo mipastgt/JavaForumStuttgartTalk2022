@@ -10,5 +10,5 @@ actual fun DataTooltipArea(
     modifier: Modifier,
     content: @Composable () -> Unit
 ) {
-    Row(modifier = modifier) {content()}
+    content()
 }

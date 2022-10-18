@@ -107,7 +107,7 @@ kotlin {
             kotlin.srcDirs("src/jvmMain/kotlin")
             dependencies {
                 api("androidx.appcompat:appcompat:1.5.1")
-                implementation("androidx.activity:activity-compose:1.5.1")
+                implementation("androidx.activity:activity-compose:1.6.0")
             }
         }
 
@@ -218,11 +218,11 @@ project.tasks.withType(org.jetbrains.kotlin.gradle.dsl.KotlinJsCompile::class.ja
 }
 
 android {
-    compileSdk = 32
+    compileSdk = 33
 
     defaultConfig {
         minSdk = 26
-        targetSdk = 32
+        targetSdk = 33
     }
 
     compileOptions {
@@ -233,7 +233,8 @@ android {
     sourceSets {
         named("main") {
             manifest.srcFile("src/androidMain/AndroidManifest.xml")
-            res.srcDirs("src/androidMain/res", "src/commonMain/resources")
+            res.srcDirs("src/androidMain/res")
+//            res.srcDirs("src/androidMain/res", "src/commonMain/resources")
         }
     }
 }

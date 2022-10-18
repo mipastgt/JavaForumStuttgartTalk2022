@@ -46,7 +46,7 @@ fun PolySpiralApp(topOffset: Dp = 0.dp) {
                     .padding(start = 10.dp, top = 5.dp, end = 10.dp, bottom = 5.dp)
                     .fillMaxWidth()
             ) {
-                DataTooltipArea("Toggle start/stop of the graphics animation.") {
+//                DataTooltipArea("Toggle start/stop of the graphics animation.") {
                     Button(
                         onClick = {
                             if (polySpiralManagerState.isRendering) {
@@ -59,7 +59,7 @@ fun PolySpiralApp(topOffset: Dp = 0.dp) {
                     ) {
                         Text(text = if (polySpiralManagerState.isRendering) "Stop" else "Start")
                     }
-                }
+//                }
 
                 Box(
                     contentAlignment = Alignment.Center,
@@ -68,31 +68,31 @@ fun PolySpiralApp(topOffset: Dp = 0.dp) {
                         .clip(RoundedCornerShape(4.dp))
                         .background(Color.White)
                 ) {
-                    DataTooltipArea("Show the current value of the angle in degrees.") {
+//                    DataTooltipArea("Show the current value of the angle in degrees.") {
                         Text(
 //                              text = "%.2fº".format(polySpiralManagerState.angleIncrementDeg)
                             text = "${polySpiralManagerState.angleIncrementDeg.toInt()}º"
                         )
-                    }
+//                    }
                 }
 
-                DataTooltipArea("Adjust the angle manually.", modifier = Modifier.weight(1f)) {
+//                DataTooltipArea("Adjust the angle manually.", modifier = Modifier.weight(1f)) {
                     Slider(
                         value = polySpiralManagerState.angleIncrementDeg.toFloat(),
                         valueRange = 0f..360f,
                         onValueChange = { polySpiralManager.angleIncrementDeg = it.toDouble() },
                         modifier = Modifier.weight(1f)
                     )
-                }
+//                }
 
-                DataTooltipArea("Stop the graphics animation.") {
+//                DataTooltipArea("Stop the graphics animation.") {
                     Button(
                         onClick = { polySpiralManager.reset() },
 //                    modifier = Modifier.width(90.dp)
                     ) {
                         Text(text = "Reset")
                     }
-                }
+//                }
             }
 
             Canvas(modifier = Modifier.fillMaxSize().clipToBounds().background(Color.White)) {
